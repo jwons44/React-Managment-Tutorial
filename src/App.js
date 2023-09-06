@@ -1,11 +1,41 @@
-import logo from './logo.svg';
 import './App.css';
+import Customer from './components/Customer';
 
 function App() {
+  const customers = [
+    {
+      id: 1,
+      image:
+        'https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=80&q=80',
+      name: '1111홍길동',
+      birthday: '961222',
+      gender: '남자',
+      job: '대학생1111',
+    },
+    {
+      id: 2,
+      image:
+        'https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=80&q=80',
+      name: '홍길동222',
+      birthday: '961222',
+      gender: '남자',
+      job: '대학생2222',
+    },
+    {
+      id: 3,
+      image:
+        'https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=80&q=80',
+      name: '홍길동',
+      birthday: '961222',
+      gender: '남자',
+      job: '대학생333333',
+    },
+  ];
   return (
     <div className='gray-background'>
-      <img src={logo} alt='logo' />
-      <h2>Let's develop management system</h2>
+      {customers.map((c) => (
+        <Customer key={c.id} {...c} />
+      ))}
     </div>
   );
 }
