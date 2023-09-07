@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -20,11 +21,15 @@ const useStyles = makeStyles((theme) => ({
   table: {
     minWidth: 1080,
   },
+  progress: {
+    margin: theme.spacing(2),
+  },
 }));
 
 function App() {
   const classes = useStyles(); // material-ui 스타일 클래스를 가져오기
   const [customers, setCustomers] = useState([]); // customers 상태를 useState를 사용하여 정의
+  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     // axios를 사용하여 데이터를 가져옴
@@ -42,6 +47,15 @@ function App() {
       .catch((error) => {
         console.error('Error:', error);
       });
+    const timer = setInterval(() => {
+      setProgress((prevProgress) =>
+        prevProgress >= 100 ? 0 : prevProgress + 10,
+      );
+    }, 800);
+
+    return () => {
+      clearInterval(timer);
+    };
   }, []);
 
   return (
@@ -58,9 +72,19 @@ function App() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {customers.map((c) => (
-            <Customer key={c.id} {...c} />
-          ))}
+          {customers.length > 0 ? (
+            customers.map((c) => <Customer key={c.id} {...c} />)
+          ) : (
+            <TableRow>
+              <TableCell colSpan='6' align='center'>
+                <CircularProgress
+                  variant='determinate'
+                  value={progress}
+                  className={classes.progress}
+                />
+              </TableCell>
+            </TableRow>
+          )}
         </TableBody>
       </Table>
     </Paper>
