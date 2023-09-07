@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Customer from './components/Customer';
 import {
   Paper,
@@ -9,6 +9,7 @@ import {
   TableRow,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,37 +23,26 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function App() {
-  const classes = useStyles(); // 스타일 클래스를 가져오기
+  const classes = useStyles(); // material-ui 스타일 클래스를 가져오기
+  const [customers, setCustomers] = useState([]); // customers 상태를 useState를 사용하여 정의
 
-  const customers = [
-    {
-      id: 1,
-      image:
-        'https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=80&q=80',
-      name: '1111홍길동',
-      birthday: '961222',
-      gender: '남자',
-      job: '대학생1111',
-    },
-    {
-      id: 2,
-      image:
-        'https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=80&q=80',
-      name: '홍길동222',
-      birthday: '961222',
-      gender: '남자',
-      job: '대학생2222',
-    },
-    {
-      id: 3,
-      image:
-        'https://images.unsplash.com/photo-1608848461950-0fe51dfc41cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8fA%3D%3D&w=80&q=80',
-      name: '홍길동',
-      birthday: '961222',
-      gender: '남자',
-      job: '대학생333333',
-    },
-  ];
+  useEffect(() => {
+    // axios를 사용하여 데이터를 가져옴
+    axios
+      .get('/api/customers')
+      .then((response) => {
+        if (response.status === 200) {
+          // 데이터를 가져온 후에 setCustomers를 사용하여 상태 업데이트
+
+          setCustomers(response.data);
+        } else {
+          console.error('Network response was not ok');
+        }
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
+  }, []);
 
   return (
     <Paper className={classes.root}>
