@@ -1,7 +1,29 @@
-import './App.css';
+import React from 'react';
 import Customer from './components/Customer';
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+} from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: '100%',
+    marginTop: theme.spacing(3),
+    overflowX: 'auto',
+  },
+  table: {
+    minWidth: 1080,
+  },
+}));
 
 function App() {
+  const classes = useStyles(); // 스타일 클래스를 가져오기
+
   const customers = [
     {
       id: 1,
@@ -31,12 +53,27 @@ function App() {
       job: '대학생333333',
     },
   ];
+
   return (
-    <div className='gray-background'>
-      {customers.map((c) => (
-        <Customer key={c.id} {...c} />
-      ))}
-    </div>
+    <Paper className={classes.root}>
+      <Table className={classes.table}>
+        <TableHead>
+          <TableRow>
+            <TableCell>번호</TableCell>
+            <TableCell>이미지</TableCell>
+            <TableCell>이름</TableCell>
+            <TableCell>생년월일</TableCell>
+            <TableCell>성별</TableCell>
+            <TableCell>직업</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {customers.map((c) => (
+            <Customer key={c.id} {...c} />
+          ))}
+        </TableBody>
+      </Table>
+    </Paper>
   );
 }
 
