@@ -3,6 +3,9 @@
 # database
 /mysql.js
 
+# upload
+/upload
+
 # dependencies
 /node_modules
 /.pnp

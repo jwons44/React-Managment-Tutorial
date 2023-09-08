@@ -1,6 +1,4 @@
 import React from 'react';
-import CustomerInfo from './CustomerInfo';
-import CustomerProfile from './CustomerProfile';
 import { TableCell, TableRow } from '@material-ui/core';
 
 const Customer = (props) => {

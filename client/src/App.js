@@ -11,6 +11,7 @@ import {
 import { makeStyles } from '@material-ui/core/styles';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import axios from 'axios';
+import CustomerAdd from './components/CustomerAdd';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,38 +57,41 @@ function App() {
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [customers]);
 
   return (
-    <Paper className={classes.root}>
-      <Table className={classes.table}>
-        <TableHead>
-          <TableRow>
-            <TableCell>번호</TableCell>
-            <TableCell>이미지</TableCell>
-            <TableCell>이름</TableCell>
-            <TableCell>생년월일</TableCell>
-            <TableCell>성별</TableCell>
-            <TableCell>직업</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {customers.length > 0 ? (
-            customers.map((c) => <Customer key={c.id} {...c} />)
-          ) : (
+    <div>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
             <TableRow>
-              <TableCell colSpan='6' align='center'>
-                <CircularProgress
-                  variant='determinate'
-                  value={progress}
-                  className={classes.progress}
-                />
-              </TableCell>
+              <TableCell>번호</TableCell>
+              <TableCell>이미지</TableCell>
+              <TableCell>이름</TableCell>
+              <TableCell>생년월일</TableCell>
+              <TableCell>성별</TableCell>
+              <TableCell>직업</TableCell>
             </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </Paper>
+          </TableHead>
+          <TableBody>
+            {customers.length > 0 ? (
+              customers.map((c) => <Customer key={c.id} {...c} />)
+            ) : (
+              <TableRow>
+                <TableCell colSpan='6' align='center'>
+                  <CircularProgress
+                    variant='determinate'
+                    value={progress}
+                    className={classes.progress}
+                  />
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </Paper>
+      <CustomerAdd />
+    </div>
   );
 }
 
