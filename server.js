@@ -10,13 +10,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.get('/api/customers', (req, res) => {
-  mysqlConnection.query('SELECT * FROM CUSTOMER', (err, rows, fields) => {
-    if (!err) {
-      res.send(rows);
-    } else {
-      console.log(err);
-    }
-  });
+  mysqlConnection.query(
+    'SELECT * FROM CUSTOMER WHERE isDelete = 0',
+    (err, rows, fields) => {
+      if (!err) {
+        res.send(rows);
+      } else {
+        console.log(err);
+      }
+    },
+  );
 });
 
 // 이미지 업로드 폴더 설정
@@ -44,9 +47,22 @@ app.post('/api/customers', upload.single('image'), (req, res) => {
   const gender = req.body.gender;
   const job = req.body.job;
 
-  const sql = 'INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?)';
+  const sql = 'INSERT INTO CUSTOMER VALUES (null, ?, ?, ?, ?, ?,now(),0)';
   const params = [image, name, birthday, gender, job];
 
+  mysqlConnection.query(sql, params, (err, rows, fields) => {
+    if (!err) {
+      res.send(rows);
+    } else {
+      console.log(err);
+      res.status(500).json({ message: '데이터베이스 오류 발생.' });
+    }
+  });
+});
+
+app.delete('/api/customers/:id', (req, res) => {
+  let sql = 'UPDATE customer SET isDelete = 1 WHERE id = ? ';
+  let params = [req.params.id];
   mysqlConnection.query(sql, params, (err, rows, fields) => {
     if (!err) {
       res.send(rows);

@@ -1,5 +1,6 @@
 import React from 'react';
 import { TableCell, TableRow } from '@material-ui/core';
+import CustomerDelete from './CustomerDelete';
 
 const Customer = (props) => {
   const { id, image, name, birthday, gender, job } = props;
@@ -13,6 +14,9 @@ const Customer = (props) => {
       <TableCell>{birthday}</TableCell>
       <TableCell>{gender}</TableCell>
       <TableCell>{job}</TableCell>
+      <TableCell>
+        <CustomerDelete id={id} />
+      </TableCell>
     </TableRow>
   );
 };
